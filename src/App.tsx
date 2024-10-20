@@ -1,10 +1,10 @@
-import LoginForm from './components/LoginForm'
+import TagList from './components/TagList'
 
 function App() {
 
   return (
     <>
-      <LoginForm/>
+      <TagList />
     </>
   )
 }
