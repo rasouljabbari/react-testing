@@ -1,7 +1,12 @@
 import '@testing-library/jest-dom/vitest' // allow to access all of jest dom matchers
 import ResizeObserver from 'resize-observer-polyfill';
+import {server} from "./mocks/server"
+
+beforeAll(() => server.listen())
 
 global.ResizeObserver = ResizeObserver;
+afterEach(() => server.resetHandlers())
+afterAll(() => server.close())
 
 window.HTMLElement.prototype.scrollIntoView = vi.fn();
 window.HTMLElement.prototype.hasPointerCapture = vi.fn();
