@@ -1,10 +1,12 @@
-import TagList from './components/TagList'
+import { Toaster } from 'react-hot-toast'
+import ToastDemo from './components/ToastDemo'
 
 function App() {
 
   return (
     <>
-      <TagList />
+      <ToastDemo />
+      <Toaster/>
     </>
   )
 }
