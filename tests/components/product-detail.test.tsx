@@ -33,6 +33,15 @@ describe('ProductDetail', () => {
         expect(errorMessage).toBeInTheDocument()
     })
 
+    it('should render an error if data fetching fails', async () => {
+        server.use(http.get('/products/20', () => HttpResponse.error()))
+
+        render(<ProductDetail productId={20} />)
+
+        const errorMessage = await screen.findByText(/error/i)
+        expect(errorMessage).toBeInTheDocument()
+    })
+
     // it('should render message if product id is invalid', async () => {
 
     //     render(<ProductDetail productId={24} />)
