@@ -25,7 +25,7 @@ const ProductList = () => {
             }
         }
         fetchProducts()
-    }) 
+    }, []) 
 
     if (isLoading) return <div>Loading...</div>;
 
