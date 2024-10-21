@@ -2,20 +2,21 @@ import { render, screen } from '@testing-library/react';
 import { HttpResponse, http } from 'msw';
 import { server } from '../mocks/server';
 import ProductList from '../../src/components/ProductList';
+import { db } from '../mocks/db';
 
 describe('ProductList', () => {
-    // const productIds: number[] = [];
+    const productIds: number[] = [];
 
-    // beforeAll(() => {
-    //     [1, 2, 3].forEach(() => {
-    //         const product = db.product.create();
-    //         productIds.push(product.id);
-    //     });
-    // });
+    beforeAll(() => {
+        [1, 2, 3].forEach(() => {
+            const product = db.product.create();
+            productIds.push(product.id);
+        });
+    });
 
-    // afterAll(() => {
-    //     db.product.deleteMany({ where: { id: { in: productIds } } })
-    // })
+    afterAll(() => {
+        db.product.deleteMany({ where: { id: { in: productIds } } })
+    })
 
     it('should render the list of products', async () => {
         render(<ProductList />);
@@ -33,13 +34,13 @@ describe('ProductList', () => {
         expect(message).toBeInTheDocument();
     });
 
-    // it('should render an error message when there is an error', async () => {
-    //     server.use(http.get('/products', () => HttpResponse.error()));
+    it('should render an error message when there is an error', async () => {
+        server.use(http.get('/products', () => HttpResponse.error()));
 
-    //     render(<ProductList />, { wrapper: AllProviders });
+        render(<ProductList />);
 
-    //     expect(await screen.findByText(/error/i)).toBeInTheDocument();
-    // });
+        expect(await screen.findByText(/error/i)).toBeInTheDocument();
+    });
 
     // it('should render a loading indicator when fetching data', async () => {
     //     server.use(http.get('/products', async () => {
