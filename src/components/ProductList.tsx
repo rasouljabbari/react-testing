@@ -1,31 +1,17 @@
 import axios from "axios";
 import { Product } from "../entities";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 const ProductList = () => {
 
-    const [products, setProducts] = useState<Product[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [error, setError] = useState<Error | null>(null);
-
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                setIsLoading(true);
-                const {data} = await axios.get<Product[]>("/products");
-                setProducts(data);
-                setIsLoading(false);
-            } catch (error) {
-                setIsLoading(false);
-                if(error instanceof Error) {
-                    setError(error);
-                } else {
-                    setError(new Error("Unknown error"));
-                }
-            }
-        }
-        fetchProducts()
-    }, []) 
+    const {
+      data: products,
+      error,
+      isLoading,
+    } = useQuery<Product[], Error>({
+      queryKey: ["products"],
+      queryFn: () => axios.get<Product[]>("/products").then((res) => res.data),
+    });
 
     if (isLoading) return <div>Loading...</div>;
 
